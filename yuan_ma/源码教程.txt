@@ -1,0 +1,404 @@
+Gitee Pages个人简历部署（上）
+
+[小G]
+
+已于 2022-11-06 18:25:50 修改
+
+846
+ 收藏 3
+分类专栏： 笔记 文章标签： 前端 Gitee 网站部署
+版权
+
+笔记
+专栏收录该内容
+16 篇文章0 订阅
+订阅专栏
+文章目录
+写在前面的话
+简历制作
+简历部署
+写在前面的话
+需要明白的两个核心问题：
+
+简历制作：
+想要做一个网页版的个人简历，要求不高的话，其实只需要一个静态的html文件即可（或者再加个css样式文件）
+简历部署：
+采用github或者gitee提供的pages服务，可以很快部署完成，并能够访问（本文讲解使用gitee pages）
+本篇文章主要解决这两个问题。
+
+另外，除了进行简历制作和部署外，我还添加了密码检验这个功能，即需要正确输入密码后才能查看简历。
+这个放到下一篇文章讲。
+
+简历制作
+对于想要快速制作一份简历的同学来说，如果没有特殊或者很高的要求，可以去网上找一份模板，改改就成自己的了
+
+可以参考这位博主的文章，可以前往下面的链接进行下载简历：
+
+简历链接：http://labfile.oss.aliyuncs.com/courses/624/cv-template.zip
+
+下载后进入文件夹内，用浏览器打开 index.html 文件，即可查看并编辑简历内容
+
+
+
+说明：
+
+点击图片可以更换图片（比如头像）
+选中文字后使用快捷键 Ctrl+b 可以对文字进行加粗处理
+微信二维码模块不想要可以删除掉（点击X号，其它模块也一样）
+【下面是重点】
+
+编辑完成后，需要保存，如何保存呢？
+
+首先 F12 打开浏览器（我这里用的是edge，Chrome、火狐均可以）开发者工具
+
+右键 html 这一标签，选择“编辑为HTML”，然后就能ctrl+a全选和复制了
+复制全部后，用记事本或其它文本编辑工具重新打开 index.html 文件，删除全部内容，然后粘贴刚复制的东西，再ctrl+s保存就行了
+重新用浏览器打开 index.html 就能看到修改完成后的简历了
+到达这里就算是制作好一份简历了，如果想导出pdf可以选择浏览器的“打印”，然后就能导出了
+制作完成的简历如果想让它不再能够编辑的话，可以把 index.html 里引用的js文件都注释掉。
+
+简历部署
+接下来就可以将简历部署到gitee pages(或者gitee pages)了
+
+首先你需要懂一些git相关的基本知识，另外本地安装了git工具，至少会使用如下几条命令：
+
+git init   # 将一个普通文件夹初始化为一个git仓库
+git add .  # 添加到本地暂存库
+git commit -m "提交信息xxxxxx"  # 提交文件到仓库
+git push -u gitee master  # 推送到远程仓库的master分支
+
+git remote add [远程仓库名，自定义，如origin] [仓库链接(SSH版)]
+git remote -v  # 查看已经关联的远程仓库
+
+1
+2
+3
+4
+5
+6
+7
+8
+接下来就可以进行部署了
+
+首先登录gitee创建一个仓库
+初始化本地仓库（使用 git init 命令），关联远程仓库 git remote add [仓库名] [仓库链接]
+然后一顿操作 git add ., git commit -m "xxx", git push -u xxx master 就可以提交到远程仓库了
+然后开启gitee pages（第一次使用这个功能可能需要向客服申请，需要大概一天时间，GitHub的就不用）
+
+
+配置如下即可
+
+
+开启后上面会给出一个链接，点击即可访问自己的简历了。
+
+
+
+到这里就完成一份简单的网页版个人简历部署了😀
+————————————————
+版权声明：本文为CSDN博主「[小G]」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/m0_46079750/article/details/126321191
+
+
+Gitee Pages个人简历部署（下）
+
+[小G]
+
+已于 2022-11-06 18:25:29 修改
+
+281
+ 收藏
+分类专栏： 笔记 文章标签： 前端 vercel 简历
+版权
+
+笔记
+专栏收录该内容
+16 篇文章0 订阅
+订阅专栏
+部署后效果
+
+
+ 
+密码校验
+在上一篇文章中已经部署好了简历，但如果不想让别人访问自己的简历咋办，很容易想到用密码，但有几个问题需要解决：
+
+密码不能写在前端代码里，否则别人一个F12就把你代码里外看得清清楚楚的了。
+前端写不了，但这是静态网站，没有后端怎么办？
+鉴于以上情况，我选择使用vercel云函数api来实现这个应该由后端实现的功能。
+
+思路大体上是：
+
+用户通过前端输入密码
+前端代码使用post方式将密码发送给vercel的api
+api接收到数据后，判断前端输入的密码与提前设置好的密码是否一致，并返回 true/false 给前端
+前端收到true则密码正确，放行；否则不放行。
+前端代码
+前端完整项目
+https://gitcode.net/ajream/myresume/-/tree/master
+登录页面
+首先要写一个简单的登录页面
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>登录</title>
+		<script src="https://upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.2.min.js"></script>
+
+	</head>
+	<style>
+		.container {
+			width: 400px;
+			height: 200px;
+			background-color: aliceblue;
+			position: relative;
+			margin: 150px auto;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+			border: 2px solid #55557f;
+
+		}
+		.myForm {
+			width: 300px;
+			height: 100px;
+		}
+
+		.myForm .submit-btn {
+			margin-top: 20px;
+
+		}
+		.btn{
+			border: #55557f 1px solid;
+			margin-top: 10px;
+			width: fit-content;
+			padding: 5px;
+		}
+		.btn:hover{
+			cursor: pointer;
+		}
+		.btn:active{
+			color: blue;
+		}
+	</style>
+
+	<body>
+		<div class="container">
+			<div class="content">
+				<p>密码输入：</p>
+				<input type="password" class="pwd_input">
+				<div class="btn submit">提交</div>
+				<!-- <div class="btn exit">清除密码</div> -->
+			</div>
+
+		</div>
+		<script type="text/javascript">
+			var pwd = '';
+			var flag = false;
+			
+			$('.submit').click(function() {
+				pwd = $('.pwd_input').val();
+				$.post('https://vercel-ver-api.vercel.app/api/ver_js', {'pwd': pwd}, (data_res, textStatus, jqxhr)=>{
+					flag = data_res['verify_result'];
+					console.log("flag: " + flag);
+					if (flag == true) {
+						localStorage.setItem('ver', true);
+						window.location.href = 'pages/resume1.html';
+					} else {
+						localStorage.setItem('ver', false);
+						alert('密码错误');
+					}
+				})
+				
+			});
+
+		</script>
+		
+	</body>
+</html>
+
+
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+
+
+代码中的下面这部分就是以post方式请求接口https://vercel-ver-api.vercel.app/api/ver_js，将用户输入的密码 pwd传过去，得到响应后就根据返回结果true/false执行不同的逻辑。
+
+而且，如果密码正确的话，会往本地存储里写入一个键值对 {'ver': true/false} ，重复刷新简历页面时，先判断有无这个键值对，如果有则表明已经验证过密码了，可以直接访问，如果没有就要重定向到密码页面进行输入密码。
+
+$.post('https://vercel-ver-api.vercel.app/api/ver_js', {'pwd': pwd}, (data_res, textStatus, jqxhr)=>{
+    flag = data_res['verify_result'];
+    if (flag == true) {
+    	localStorage.setItem('ver', true);
+    	window.location.href = 'pages/resume1.html';
+    } else {
+        localStorage.setItem('ver', false);
+        alert('密码错误');
+    }
+})
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+
+
+简历页面
+为了避免直接输入链接的方式访问页面，在简历的 head 标签里添加下面的代码逻辑
+
+<script src="https://upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.2.min.js"></script>
+<script type="text/javascript">
+    loginVerify();
+    function loginVerify() {
+    	var ver = localStorage.getItem("ver");
+    	if (ver == null || ver == 'false') {
+    		window.location.href = '../index.html';// 这个即登录页面
+    	}
+    }
+</script>
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+body标签里添加下面的代码
+
+<script type="text/javascript">
+	$('#exit-btn').click(function(){
+		localStorage.clear();
+		window.location.href = '../index.html';  
+	})
+</script>
+1
+2
+3
+4
+5
+6
+vercel部署云函数api
+前往Gitcode下载完整项目
+https://gitcode.net/ajream/myresume_scf
+新建一个项目(注意一定要有 /api 这个目录)
+
+
+
+可以用python或者nodejs进行编程，下面以nodejs为例（也就是把下面的代码复制到 ver_js.js 文件里，其它不用管了）
+
+export default function handler(req, res) {
+    var verify_result = false;
+    if(req.method === 'POST'){               //使用post方式
+        const pwd_req = req.body['pwd'];     // 接收前端发来的密码
+        if(pwd_req === 'abc987zyx') verify_result = true;  // 判断密码是否正确
+        else verify_result = false;
+    }
+    var res_data = {'verify_result': verify_result};
+
+    res.setHeader("Access-Control-Allow-Origin", "*");   // 消除跨域访问报错
+    res.status(200).send(res_data);         //返回数据到前端
+}
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+然后把上面的代码push到github中，然后在vercel新建工程并导入这个仓库，部署成功后即可通过post方式请求该接口了。
+————————————————
+版权声明：本文为CSDN博主「[小G]」的原创文章，遵循CC 4.0 BY-SA版权协议，转载请附上原文出处链接及本声明。
+原文链接：https://blog.csdn.net/m0_46079750/article/details/126324964
+
+
+
+
