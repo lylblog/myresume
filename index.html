@@ -53,7 +53,7 @@
 				<p>密码输入：</p>
 				<input type="password" class="pwd_input">
 				<div class="btn submit">提交</div>
-				<!-- <div class="btn exit">清除密码</div> -->
+				<div class="btn exit">清除密码</div>
 			</div>
 
 		</div>
@@ -63,7 +63,7 @@
 			
 			$('.submit').click(function() {
 				pwd = $('.pwd_input').val();
-				$.post('https://vercel-ver-api.vercel.app/api/ver_js', {'pwd': pwd}, (data_res, textStatus, jqxhr)=>{
+				$.post('https://myresume.liuhu.asia/api/ver_js', {'pwd': pwd}, (data_res, textStatus, jqxhr)=>{
 					
 					flag = data_res['verify_result'];
 					console.log("flag: " + flag);
