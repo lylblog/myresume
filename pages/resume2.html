@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8" />
 		<title></title>
-		<!-- <script src="https://unpkg.com/vue@next"></script> -->
+		<script src="https://unpkg.com/vue@next"></script>
 		<link rel="stylesheet" href="../css/resume2.css">
 		<script src="../js/v3.2.8/vue.global.prod.js" type="text/javascript" charset="utf-8"></script>
 		<script src="https://upcdn.b0.upaiyun.com/libs/jquery/jquery-2.0.2.min.js"></script>
@@ -95,7 +95,7 @@
 								<li>用到的技术：C/C++编程，单片机开发，HTTP请求的访问，MQTT协议的使用，MQTT服
 							务器配置，Java编程，Android开发等技术。</li>
 							</ol>
-							<!-- 1、背景：利用STM32单片机开发平台和ESP8266WiFI模块实现一款简单的智能家居产品。
+							1、背景：利用STM32单片机开发平台和ESP8266WiFI模块实现一款简单的智能家居产品。
 							2、主要任务：通过采用MQTT协议实现设备之间的通信服务。
 							3、实现功能：使用C++编程和STM32采集周围温湿度、光照信息，ESP8266WIFI模块获取网
 							络时间和天气信息，并在TFTLCD屏幕显示；STM32将信息通过串口发送到ESP8266模块，再
@@ -106,18 +106,18 @@
 							前端APP可以在联网情况下显示单片机采集到的环境信息，也可以远程设置最低光强和报警
 							温度，并能看到后端报警器和小灯是否处于打开的状态。
 							5、用到的技术：C/C++编程，单片机开发，HTTP请求的访问，MQTT协议的使用，MQTT服
-							务器配置，Java编程，Android开发等技术 -->
+							务器配置，Java编程，Android开发等技术
 						</p>
 					</div>
 					
 					<div class="prj">
-						<!-- 
+
 						 树莓派火灾监控项目 - 独自完成 2020年11月 - 2020年12月
 						 在树莓派上安装Linux系统，利用Python编程，结合OpenCV图像处理模块以及自己训练的分
 						 类器，通过摄像头采集图像信息，并进行简单处理后判断是否有火情，然后驱动LED灯闪烁发
 						 出警报。
 
-						 -->
+
 						<span style="font-weight: 600;">树莓派火灾监控项目</span>
 						<span>- 独自完成</span>
 						<span style="font-weight: 600; float: right; margin-right: 10px">2020年11月 ~ 2020年12月</span>
@@ -143,16 +143,18 @@
 					</ol>
 				</div>
 			</div>
+
 			<div class="nav-s">
 				<div class="nav">
-					<a href="http://ajream.vercel.app" style="text-decoration: none;">我的博客</a>
+					<a href="https://lylblog.github.io/nav/" target="_blank" style="text-decoration: none;">我的导航页</a>
 				</div>
 				<div class="nav">
-					<a href="resume1.html" style="text-decoration: none;">切换风格</a>
+					<a href="resume2.html" style="text-decoration: none;">切换风格</a>
 				</div>
-				<div class="nav exit-btn">
+				<div class="nav" id="exit-btn">
 					退出
 				</div>
+				
 			</div>
 			
 		</div>
