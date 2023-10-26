@@ -54,7 +54,7 @@
 		
 		$('.submit').click(function() {
 			pwd = $('.pwd_input').val();
-			$.post('https://chipper-pudding-d3855f.netlify.app/api/ver_js', {'pwd': pwd}, (data_res, textStatus, jqxhr)=>{
+			$.post('https://myresume-api.onrender.com/login', {'pwd': pwd}, (data_res, textStatus, jqxhr)=>{
 				
 				flag = data_res['verify_result'];
 				console.log("flag: " + flag);
