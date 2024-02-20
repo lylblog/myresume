@@ -84,7 +84,7 @@
 		
 		$('.submit').click(function() {
 			pwd = $('.pwd_input').val();
-			$.post('myresumeapi-production.up.railway.app/login', {'pwd': pwd}, (data_res, textStatus, jqxhr)=>{
+			$.post('https://myresumeapi-production.up.railway.app/login', {'pwd': pwd}, (data_res, textStatus, jqxhr)=>{
 				
 				flag = data_res['verify_result'];
 				console.log("flag: " + flag);
