@@ -48,7 +48,7 @@
     </div>
 
 </body>
-	<!--
+
 	<script type="text/javascript">
 		var pwd = '';
 		var flag = false;
@@ -76,33 +76,5 @@
 
 		
 	</script>
-	-->
 
-	<script type="text/javascript">
-		var pwd = '';
-		var flag = false;
-		
-		$('.submit').click(function() {
-			pwd = $('.pwd_input').val();
-			$.post('https://myresumeapi-production.up.railway.app/login', {'pwd': pwd}, (data_res, textStatus, jqxhr)=>{
-				
-				flag = data_res['verify_result'];
-				console.log("flag: " + flag);
-				if (flag == true) {
-					localStorage.setItem('ver', true);
-					window.location.href = 'pages/resume1.html';
-				} else {
-					localStorage.setItem('ver', false);
-					alert('密码错误');
-				}
-			})
-			
-		});
-		$('.exit').click(function() {
-			localStorage.clear();
-			alert('保存的密码已清除');
-		})
-
-		
-	</script>
 </html>
