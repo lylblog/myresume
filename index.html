@@ -46,7 +46,7 @@
 			<button   class="btn exit">清除密码</button>
         </div>
     </div>
-
+<!-- https://myresume-api.onrender.com/login -->
 </body>
 
 	<script type="text/javascript">
@@ -55,8 +55,7 @@
 		
 		$('.submit').click(function() {
 			pwd = $('.pwd_input').val();
-			$.post('https://myresume-api.onrender.com/login', {'pwd': pwd}, (data_res, textStatus, jqxhr)=>{
-				
+			$.post('https://chipper-pudding-d3855f.netlify.app/login', {'pwd': pwd}, (data_res, textStatus, jqxhr)=>{				
 				flag = data_res['verify_result'];
 				console.log("flag: " + flag);
 				if (flag == true) {
